@@ -1,26 +1,49 @@
+'''Main bot application file to run directly with Python'''
+
 # Allows for other .py files to be found in /modules folder
 from sys import path as syspath
 syspath.append(syspath[0] + "\\modules")
 
 # Load environment
 import discord
-from dotenv import load_dotenv
-from os import system, getenv
+from os import system
 
-load_dotenv(".env")
 system("ffmpeg -version")
 print("\nRunning PyCord version" + discord.__version__)
-bot_token = getenv("BOTTOKEN")
-if bot_token is None:
-    print("Bot token not found!\nTerminating program...")
+try:
+    with open("settings/bottoken.txt") as file:
+        bot_token = file.read()
+except OSError:
+    print("\nBot token not found!\nTerminating program...")
     quit()
 else:
-    print("Bot token found!\nLaunching Meridia...")
+    print("\nBot token found!")
+
+# Creates certain empty folders if necessary
+from os.path import exists
+from os import mkdir
+if exists("database"):
+    print("Database folder found!")
+else:
+    print("Database folder not found!\nCreating new folder...")
+    mkdir("database")
+if exists("database/db.sqlite"):
+    print("Database found!")
+else:
+    print("Database not found!\nPlease run bot.db_init() in a separate script.")
+if exists("logs"):
+    print("Logs folder found!")
+else:
+    print("Logs folder not found!\nCreating new folder...")
+    mkdir("logs")
 
 # Import all modules, setting up event listeners
 from bot import bot_client
 from auxiliary import log, getTime
+import dbmodels
 import beacon
+
+print("\nAll bot modules successfully loaded!\nNow initiating connection to Discord servers...")
 
 # Initialize bot loop
 @bot_client.listen()
