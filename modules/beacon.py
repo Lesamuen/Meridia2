@@ -3,7 +3,7 @@
 from bot import bot_client
 from auxiliary import playAudio, log, getTime
 
-from discord import Message, TextChannel, Member, Forbidden
+from discord import Message, TextChannel, Member, Forbidden, RawReactionActionEvent
 
 async def beacon_touch(channel: TextChannel, mention: Member):
     '''
@@ -16,7 +16,7 @@ async def beacon_touch(channel: TextChannel, mention: Member):
     log(getTime() + " >> " + str(mention) + " has touched the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
 
     try:
-        await channel.send("A NEW HAND TOUCHES THE BEACON.", delete_after = 60)
+        await channel.send("**A NEW HAND TOUCHES THE BEACON.**", delete_after = 60)
     except Forbidden: 
         log("ERROR >> Meridia's influence cannot reach there!")
 
@@ -34,3 +34,15 @@ async def beacon_touch_message(message: Message):
     
     if ":touchesthebeacon:" in message.content:
         await beacon_touch(message.channel, message.author)
+
+@bot_client.listen("on_raw_reaction_add")
+async def beacon_touch_reaction(payload: RawReactionActionEvent):
+    '''
+    Detects when a beacon is touched from a user reaction.
+    '''
+
+    if payload.member and payload.member.bot:
+        return
+    
+    if payload.emoji.name == "touchesthebeacon":
+        await beacon_touch(bot_client.get_channel(payload.channel_id), payload.member)
