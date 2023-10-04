@@ -7,6 +7,8 @@ Everytime someone reacted with or entered a message with the :touchesthebeacon: 
 From then on, many, many other joke features have been requested and added, to the point that now, the bot needs a version control system, a database, and a full code rework.
 Hence, Meridia 2.
 
+Note: The code for Meridia 1 will not be made publicly available, because it contains too much private information, such as bot token, User IDs, Guild IDs, and Role IDs.
+
 ## Current Python Dependencies
 - py-cord[voice]
 - pynacl
