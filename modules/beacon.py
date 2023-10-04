@@ -1,28 +1,46 @@
 '''Event listeners related to touching the beacon'''
 
-from bot import bot_client
+from bot import bot_client, database_connector
 from auxiliary import playAudio, log, getTime
+from dbmodels import User
 
 from discord import Message, TextChannel, Member, Forbidden, RawReactionActionEvent
 
-async def beacon_touch(channel: TextChannel, mention: Member):
+async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
     '''
     Handles all beacon touching logic (since multiple events trigger the same code)
 
     Responds to original message with "A NEW HAND TOUCHES THE BEACON".
+
     If author was is in a voice channel, will also join the same voice channel and play the quote.
+
+    ### Parameters
+    channel: TextChannel
+        The text channel where the beacon was touched
+    
+    toucher: Member
+        The Discord user who touched the beacon
     '''
 
-    log(getTime() + " >> " + str(mention) + " has touched the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
+    session = database_connector()
+    
+    user = User.find_user(session, toucher.id)
+
+    log(getTime() + " >> " + str(toucher) + " has touched the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
 
     try:
         await channel.send("**A NEW HAND TOUCHES THE BEACON.**", delete_after = 60)
     except Forbidden: 
-        log("ERROR >> Meridia's influence cannot reach there!")
+        log("ERROR HAS OCCURRED   >> Meridia's influence cannot reach there!")
+    else:
+        user.touch_beacon(session)
+        log("                        Touch #" + str(user.beacon_touches))
 
     # If connected to a voice channel, play meridia.ogg
-    if mention.voice:
-        await playAudio(mention.voice.channel, "meridia")
+    if toucher.voice:
+        await playAudio(toucher.voice.channel, "meridia")
+
+    session.close()
 
 @bot_client.listen("on_message")
 async def beacon_touch_message(message: Message):
