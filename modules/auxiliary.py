@@ -5,6 +5,11 @@ from discord import ClientException
 
 from datetime import datetime
 from asyncio import sleep
+from random import randint
+
+
+class InvalidArgumentError(Exception):
+    pass
 
 
 def getTime() -> str:
@@ -83,3 +88,31 @@ async def playAudio(vc: VoiceChannel, file: str) -> None:
             log("ERROR HAS OCCURRED   >> Audio commands have collided!")
     else:
         voice_client.source = audio
+
+
+def d(n: int, x: int) -> int:
+    '''
+    Rolls a given a number of dice in the form NdX, and returns the sum.
+
+    ### Parameters
+    n: int
+        Number of dice
+    
+    x: int
+        Number of sides per dice
+
+    ### Returns
+    (int) sum of each die result
+
+    ### Throws
+    InvalidArgumentError
+        Either argument is less than or equal to 0
+    '''
+
+    if n <= 0 or x <= 0:
+        raise InvalidArgumentError
+
+    result = 0
+    for i in range(n):
+        result += randint(1, x)
+    return result
