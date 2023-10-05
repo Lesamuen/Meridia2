@@ -14,7 +14,7 @@ class InvalidArgumentError(Exception):
 
 def getTime() -> str:
     '''
-    Returns the current time in extended ISO8601 format; 20 chars long
+    Returns the current system time in extended ISO8601 format; 20 chars long
     '''
 
     return datetime.now().strftime("%Y-%m-%d, %H:%M:%S")
@@ -111,6 +111,10 @@ def d(n: int, x: int) -> int:
 
     if n <= 0 or x <= 0:
         raise InvalidArgumentError
+    
+    # speed improvement for single dice roll
+    if n == 1:
+        return randint(1, x)
 
     result = 0
     for i in range(n):
