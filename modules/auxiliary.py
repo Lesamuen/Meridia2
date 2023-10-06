@@ -120,3 +120,30 @@ def d(n: int, x: int) -> int:
     for i in range(n):
         result += randint(1, x)
     return result
+
+
+def ordinal(num: int) -> str:
+    '''
+    Produces the ordinal version of a number.
+
+    ### Parameters
+    num: int
+        The number to convert to an ordinal
+
+    ### Returns
+    The number as an ordinal, i.e. 21st    
+    '''
+
+    # If tens digit is 1
+    if (abs(num) % 100) // 10 == 1:
+        return str(num) + "th"
+    
+    # Otherwise, look at ones digit
+    ones = abs(num) % 10
+    if ones == 1:
+        return str(num) + "st"
+    if ones == 2:
+        return str(num) + "nd"
+    if ones == 3:
+        return str(num) + "rd"
+    return str(num) + "th"
