@@ -44,7 +44,7 @@ def beacon_roll() -> List[int]:
     results.sort(reverse = True)
     return results
 
-### TODO: put exception handling on all message sending/detect lack of perms beforehand, do 20 custom messages, instead of numbers do small images, add dawnbreaker image
+### TODO:  do 20 custom messages, instead of numbers do small images, add dawnbreaker image
 async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
     '''
     Handles all beacon touching logic (since multiple events trigger the same code)
@@ -69,6 +69,10 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
     toucher: Member
         The Discord user who touched the beacon
     '''
+
+    if not channel.can_send(Message):
+        log(getTime() + " >> " + str(toucher) + " tried to touch the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]\nERROR HAS OCCURRED   >> Meridia's influence does not reach there!")
+        return
 
     session = database_connector()
 
