@@ -44,7 +44,7 @@ def beacon_roll() -> List[int]:
     results.sort(reverse = True)
     return results
 
-### TODO: put exception handling on all message sending/detect lack of perms beforehand, do 19 custom messages, instead of numbers do small images, add dawnbreaker image
+### TODO: put exception handling on all message sending/detect lack of perms beforehand, do 20 custom messages, instead of numbers do small images, add dawnbreaker image
 async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
     '''
     Handles all beacon touching logic (since multiple events trigger the same code)
@@ -56,7 +56,7 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
     Progress locked at 19, until three 20s are rolled, at which progress is skipped to 20.
     Every two 20s rolled gives +1 electrum. Obtaining the dawnbreaker gives +50 electrum.
 
-    If at least one 1 and no 20s, then unable to touch beacon for 10 minutes. If three 1s, then unable to touch beacon forever.
+    If all numbers are a 1 digit number, then unable to touch beacon for 10 minutes. If three 1s, then unable to touch beacon until found again.
 
     Responds to generic touches with variants of "A NEW HAND TOUCHES THE BEACON".
 
@@ -166,26 +166,28 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
     if toucher.voice:
         await playAudio(toucher.voice.channel, "meridia")
     
-    if beacon_result[2] == 1:
-        if beacon_result[1] == 1 and beacon_result[0] == 1:
-            # Lose the beacon; progress -1
-            await channel.send("**THAT IS ENOUGH, " + toucher.mention + ". I AM--WAIT. WHERE DID YOU PUT THE BEACON?**\nYou search your inventory; it was right there just a moment ago!\n***HOW DID YOU EVEN MANAGE TO LOSE MY BEACON?!*** **FIND IT, AND I MAY FORGIVE YOU YET.**")
-            user.dawnbreaker(session, -1)
-            log("                     >> " + str(toucher) + " Dawnbreaker progress set to -1")
+    if beacon_result[0] == 1:
+        # Sorted descending; if first is 1, then all are 1
+        # Lose the beacon; progress -1
+        await channel.send("**THAT IS ENOUGH, " + toucher.mention + ". I AM--WAIT. WHERE DID YOU PUT THE BEACON?**\nYou search your inventory; it was right there just a moment ago!\n***HOW DID YOU EVEN MANAGE TO LOSE MY BEACON?!*** **FIND IT, AND I MAY FORGIVE YOU YET.**")
+        user.dawnbreaker(session, -1)
+        log("                     >> " + str(toucher) + " Dawnbreaker progress set to -1")
 
-            session.close()
-            return
+        session.close()
+        return
 
-        if beacon_result[0] != 20:
-            # 10 min cooldown
-            await channel.send("**THAT IS ENOUGH, " + toucher.mention + ". I AM DISHEARTENED BY YOUR MISTREATMENT OF MY BEACON.**")
-            user.set_cd(session, timedelta(minutes = 10))
-            log("                     >> " + str(toucher) + " cooldown set to 10 minutes")
+    if beacon_result[0] < 10:
+        # Sorted descending; if first is 1 digit, then all are 1 digit
+        # 10 min cooldown
+        await channel.send("**THAT IS ENOUGH, " + toucher.mention + ". I AM DISHEARTENED BY YOUR MISTREATMENT OF MY BEACON.**")
+        user.set_cd(session, timedelta(minutes = 10))
+        log("                     >> " + str(toucher) + " cooldown set to 10 minutes")
 
-            session.close()
-            return
+        session.close()
+        return
         
-    if beacon_result[0] == 20 and beacon_result[1] == 20:
+    if beacon_result[1] == 20:
+        # Sorted descending; first num guaranteed to be 20
         if beacon_result[2] == 20:
             # PULL THE DAWNBREAKER
             user.dawnbreaker(session, 20)
@@ -201,6 +203,8 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
         if user.dawnbreaker_progess < 19:
             user.dawnbreaker(session, user.dawnbreaker_progess + 1)
             log("                     >> " + str(toucher) + " Dawnbreaker progress set to " + str(user.dawnbreaker_progess))
+        else:
+            log("                     >> " + str(toucher) + " Dawnbreaker progress is already max at 19")
         user.add_electrum(session, 1)
         log("                     >> 1 electrum imbursed to " + str(toucher))
         await channel.send(toucher.mention + "\n" + quest_dialogue[user.dawnbreaker_progess] + "\n__+1 Electrum__")
