@@ -15,9 +15,12 @@ Note: The code for Meridia 1 will not be made publicly available, because it con
 - SQLAlchemy
 
 ## Pre-Use Steps
+- Bot is designed to be used with Windows; if you are on Linux, you need to add some code to manually load the Opus library in main.py for voice to work.
 - Get ffmpeg into PATH
 - Put bot token in settings/bottoken.txt file
 - Fill out Discord user IDs in settings/perms.json
+- Servers using this bot should add a :touchesthebeacon: emote that is a picture of Meridia's beacon.
 
 ## Current Capabilities
-- Touching the Beacon (Audio support, touches tracking)
+- User tracking (beacon-related info, electrum currency)
+- Touching the Beacon (vc support, touches tracking, quest to find the Dawnbreaker, electrum rewards, special emote usage, 2 ways to do it)
