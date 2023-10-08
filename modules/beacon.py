@@ -1,9 +1,9 @@
 '''Contains event listeners and event logic related to touching the beacon'''
 
 from typing import List
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 
-from discord import Message, TextChannel, Member, Forbidden, RawReactionActionEvent
+from discord import Message, TextChannel, Member, RawReactionActionEvent, ApplicationContext
 
 from bot import bot_client, database_connector
 from auxiliary import playAudio, log, getTime, d, ordinal
@@ -216,6 +216,7 @@ async def beacon_touch_message(message: Message):
     '''
     Detects when a beacon is touched from a user message.
     '''
+
     if message.author.bot:
         return
     
@@ -233,3 +234,12 @@ async def beacon_touch_reaction(payload: RawReactionActionEvent):
     
     if payload.emoji.name == "touchesthebeacon":
         await beacon_touch(bot_client.get_channel(payload.channel_id), payload.member)
+
+@bot_client.slash_command(name = "touchthebeacon", description = "Touch Meridia's Beacon", guild_only = True)
+async def beacon_touch_command(context: ApplicationContext):
+    '''
+    Adds the command /touchthebeacon
+    '''
+
+    await context.respond("You touch the beacon.", delete_after = 60)
+    await beacon_touch(context.channel, context.author)
