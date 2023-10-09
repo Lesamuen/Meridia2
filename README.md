@@ -23,4 +23,7 @@ Note: The code for Meridia 1 will not be made publicly available, because it con
 
 ## Current Capabilities
 - User tracking (beacon-related info, electrum currency)
+- Several admin commands for debug/data editing
 - Touching the Beacon (vc support, touches tracking, quest to find the Dawnbreaker, electrum rewards, special emote usage, 2 ways to do it)
+- Users can donate money to each other
+- Dungeon masters can reward players with electrum who show up at their D&D sessions!
