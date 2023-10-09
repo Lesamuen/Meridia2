@@ -1,7 +1,6 @@
 '''Contains miscellaneous functions used in most cases'''
 
 from datetime import datetime
-from asyncio import sleep
 from random import randint
 from json import load
 from typing import Dict, List, Any
