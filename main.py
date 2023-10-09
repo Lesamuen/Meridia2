@@ -27,20 +27,30 @@ if exists("database"):
 else:
     print("Database folder not found!\nCreating new folder...")
     mkdir("database")
+
 if exists("database/db.sqlite"):
     print("Database found!")
 else:
     print("Database not found!\nPlease run bot.db_init() in a separate script.")
+    quit()
+
 if exists("logs"):
     print("Logs folder found!")
 else:
     print("Logs folder not found!\nCreating new folder...")
     mkdir("logs")
 
+if exists("settings/perms.json"):
+    print("Permissions settings found!")
+else:
+    print("Permissions file not found!\nTerminating...")
+    quit()
+
 # Import all modules, setting up event listeners
 from bot import bot_client
 from auxiliary import log, get_time
 import dbmodels
+import admin
 import beacon
 
 print("\nAll bot modules successfully loaded!\nNow initiating connection to Discord servers...")

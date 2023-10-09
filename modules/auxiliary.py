@@ -12,8 +12,9 @@ from discord import ClientException
 class InvalidArgumentError(Exception):
     pass
 
-perms: Dict[str, List[Any]] = load("settings/perms.json")
-'''Contains all permission groups used by several commands'''
+with open("settings/perms.json", "r") as file:
+    perms: Dict[str, List[Any]] = load(file)
+    '''Contains all permission groups used by several commands'''
 
 def get_time() -> str:
     '''
