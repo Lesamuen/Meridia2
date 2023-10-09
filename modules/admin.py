@@ -24,7 +24,7 @@ async def admin_pineapple(context: ApplicationContext):
         await context.respond("I don't know you, and I don't care to know you.")
         log(get_time() + " >> " + str(context.author) + " permission denied in GUILD[" + str(context.guild) + "], CHANNEL[" + str(context.channel) + "]")
 
-@admin_cmds.command(name = "setdbprog", description = "Set a user's Dawnbreaker quest progress")
+@admin_cmds.command(name = "setdbprog", description = "Set a user's Dawnbreaker quest progress", guild_only = True)
 async def admin_setdbprog(
     context: ApplicationContext,
     user: Option(DiscordUser, description = "Discord user to edit", required = True),
@@ -47,7 +47,7 @@ async def admin_setdbprog(
         await context.respond("I don't know you, and I don't care to know you.")
         log(get_time() + " >> " + str(context.author) + " permission denied in GUILD[" + str(context.guild) + "], CHANNEL[" + str(context.channel) + "]")
 
-@admin_cmds.command(name = "resetcd", description = "Reset a user's beacon touching cooldown")
+@admin_cmds.command(name = "resetcd", description = "Reset a user's beacon touching cooldown", guild_only = True)
 async def admin_resetcd(
     context: ApplicationContext,
     user: Option(DiscordUser, description = "Discord user to reset cooldown for", required = True)
@@ -69,7 +69,7 @@ async def admin_resetcd(
         await context.respond("I don't know you, and I don't care to know you.")
         log(get_time() + " >> " + str(context.author) + " permission denied in GUILD[" + str(context.guild) + "], CHANNEL[" + str(context.channel) + "]")
 
-@admin_cmds.command(name = "setcurrency", description = "Set a user's balance of electrum")
+@admin_cmds.command(name = "setcurrency", description = "Set a user's balance of electrum", guild_only = True)
 async def admin_setcurrency(
     context: ApplicationContext,
     user: Option(DiscordUser, description = "Discord user to set the electrum of", required = True),
@@ -92,7 +92,7 @@ async def admin_setcurrency(
         await context.respond("I don't know you, and I don't care to know you.")
         log(get_time() + " >> " + str(context.author) + " permission denied in GUILD[" + str(context.guild) + "], CHANNEL[" + str(context.channel) + "]")
 
-@admin_cmds.command(name = "getcurrency", description = "Get a user's balance of electrum")
+@admin_cmds.command(name = "getcurrency", description = "Get a user's balance of electrum", guild_only = True)
 async def admin_getcurrency(
     context: ApplicationContext,
     user: Option(DiscordUser, description = "Discord user to get the electrum of", required = True)
