@@ -42,7 +42,7 @@ async def admin_setdbprog(
         user_data.dawnbreaker(session, progress)
         session.close()
 
-        await context.respond("Operation complete")
+        await context.respond("Operation successful.")
     else:
         await context.respond("I don't know you, and I don't care to know you.")
         log(get_time() + " >> " + str(context.author) + " permission denied in GUILD[" + str(context.guild) + "], CHANNEL[" + str(context.channel) + "]")
@@ -64,7 +64,7 @@ async def admin_resetcd(
         user_data.reset_cd(session)
         session.close()
 
-        await context.respond("Operation complete")
+        await context.respond("Operation successful.")
     else:
         await context.respond("I don't know you, and I don't care to know you.")
         log(get_time() + " >> " + str(context.author) + " permission denied in GUILD[" + str(context.guild) + "], CHANNEL[" + str(context.channel) + "]")
@@ -87,7 +87,7 @@ async def admin_setcurrency(
         user_data.add_electrum(session, electrum - user_data.electrum)
         session.close()
 
-        await context.respond("Operation complete")
+        await context.respond("Operation successful.")
     else:
         await context.respond("I don't know you, and I don't care to know you.")
         log(get_time() + " >> " + str(context.author) + " permission denied in GUILD[" + str(context.guild) + "], CHANNEL[" + str(context.channel) + "]")
