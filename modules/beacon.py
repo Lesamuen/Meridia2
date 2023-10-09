@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from discord import Message, TextChannel, Member, RawReactionActionEvent, ApplicationContext
 
 from bot import bot_client, database_connector
-from auxiliary import playAudio, log, getTime, d, ordinal
+from auxiliary import playAudio, log, get_time, d, ordinal
 from dbmodels import User
 
 quest_dialogue = [
@@ -70,7 +70,7 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
     '''
 
     if not channel.can_send(Message):
-        log(getTime() + " >> " + str(toucher) + " tried to touch the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]\nERROR HAS OCCURRED   >> Meridia's influence does not reach there!")
+        log(get_time() + " >> " + str(toucher) + " tried to touch the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]\nERROR HAS OCCURRED   >> Meridia's influence does not reach there!")
         return
 
     session = database_connector()
@@ -79,7 +79,7 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
 
     # Dawnbreaker has already been found
     if user.dawnbreaker_progess == 20:
-        log(getTime() + " >> Dawnbreaker-bearer " + str(toucher) + " tried to touch the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
+        log(get_time() + " >> Dawnbreaker-bearer " + str(toucher) + " tried to touch the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
 
         # Coin flip between 2 dialogue possibilities
         if d(1, 2) == 1:
@@ -98,13 +98,13 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
     if user.dawnbreaker_progess == -1:
         if user.beacon_cd is not None:
             # user has a cooldown active
-            log(getTime() + " >> " + str(toucher) + " was too tired to find the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
+            log(get_time() + " >> " + str(toucher) + " was too tired to find the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
 
             await channel.send("Unfortunately, " + toucher.mention + ", you are much too tired to continue your search for the beacon today.", delete_after = 60)
 
         else:
             # attempt to find the beacon; cooldown 1 day upon fail
-            log(getTime() + " >> " + str(toucher) + " tried to find the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
+            log(get_time() + " >> " + str(toucher) + " tried to find the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
 
             message = toucher.mention + ", you set out to search for the beacon once again today.\n"
             beacon_search = d(1, 20)
@@ -132,7 +132,7 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
     
     if user.beacon_cd is not None:
         # cooldown active for pissing off meridia
-        log(getTime() + " >> " + str(toucher) + " tried to touch the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
+        log(get_time() + " >> " + str(toucher) + " tried to touch the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
 
         await channel.send("*Meridia's voice does not grace you. It seems that she is still a little peeved by your mistreatment of the beacon.*", delete_after = 60)
 
@@ -140,7 +140,7 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
         return
 
 
-    log(getTime() + " >> " + str(toucher) + " has touched the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
+    log(get_time() + " >> " + str(toucher) + " has touched the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
 
     user.touch_beacon(session)
     beacon_result = beacon_roll()

@@ -15,7 +15,7 @@ class InvalidArgumentError(Exception):
 perms: Dict[str, List[Any]] = load("settings/perms.json")
 '''Contains all permission groups used by several commands'''
 
-def getTime() -> str:
+def get_time() -> str:
     '''
     Returns the current system time in extended ISO8601 format; 20 chars long
     '''
@@ -57,7 +57,7 @@ async def playAudio(vc: VoiceChannel, file: str) -> None:
     if vc is None:
         return
 
-    log(getTime() + " >> Playing " + file + ".ogg in GUILD[" + str(vc.guild) + "], CHANNEL[" + str(vc) + "]")
+    log(get_time() + " >> Playing " + file + ".ogg in GUILD[" + str(vc.guild) + "], CHANNEL[" + str(vc) + "]")
 
     # Get bot voice client, if it exists, or create one
     voice_client: VoiceClient
@@ -85,7 +85,7 @@ async def playAudio(vc: VoiceChannel, file: str) -> None:
         try:
             await voice_client.play(audio, wait_finish = True)
             if not voice_client.is_playing():
-                log(getTime() + " >> Disconnecting voice client in GUILD[" + str(voice_client.guild) + "]")
+                log(get_time() + " >> Disconnecting voice client in GUILD[" + str(voice_client.guild) + "]")
                 await voice_client.disconnect()
         except ClientException:
             log("ERROR HAS OCCURRED   >> Audio commands have collided!")
