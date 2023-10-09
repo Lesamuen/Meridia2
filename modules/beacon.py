@@ -106,9 +106,9 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
             # attempt to find the beacon; cooldown 1 day upon fail
             log(get_time() + " >> " + str(toucher) + " tried to find the beacon in GUILD[" + str(channel.guild) + "], CHANNEL[" + str(channel) + "]")
 
-            message = toucher.mention + ", you set out to search for the beacon once again today.\n"
+            message = toucher.mention + ", you set out to search for the beacon once again today.\n`| "
             beacon_search = d(1, 20)
-            message += str(beacon_search)
+            message += str(beacon_search) + " |`"
 
             log("                     >> Result: " + str(beacon_search))
 
@@ -162,7 +162,7 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
         message = "**" + toucher.mention + " TOUCHES THE BEACON. AGAIN...**"
     else:
         message = "**" + toucher.mention + " TOUCHES THE BEACON. AGAIN. FOR THE " + ordinal(user.beacon_touches) + " TIME.**"
-    message += "\n" + str(beacon_result[0]) + "|" + str(beacon_result[1]) + "|" + str(beacon_result[2])
+    message += "\n`| " + str(beacon_result[0]) + " | " + str(beacon_result[1]) + " | " + str(beacon_result[2]) + " |`"
     await channel.send(message, delete_after = 60)
 
     # If connected to a voice channel, play meridia.ogg
