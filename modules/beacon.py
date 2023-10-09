@@ -44,7 +44,6 @@ def beacon_roll() -> List[int]:
     results.sort(reverse = True)
     return results
 
-### TODO: instead of numbers do small images, add dawnbreaker image
 async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
     '''
     Handles all beacon touching logic (since multiple events trigger the same code)
