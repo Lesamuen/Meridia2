@@ -1,16 +1,20 @@
 '''Contains miscellaneous functions used in most cases'''
 
-from discord import VoiceChannel, VoiceClient, FFmpegOpusAudio
-from discord import ClientException
-
 from datetime import datetime
 from asyncio import sleep
 from random import randint
+from json import load
+from typing import Dict, List, Any
+
+from discord import VoiceChannel, VoiceClient, FFmpegOpusAudio
+from discord import ClientException
 
 
 class InvalidArgumentError(Exception):
     pass
 
+perms: Dict[str, List[Any]] = load("settings/perms.json")
+'''Contains all permission groups used by several commands'''
 
 def getTime() -> str:
     '''
