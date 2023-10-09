@@ -5,7 +5,6 @@ from discord import User as DiscordUser
 
 from bot import bot_client, database_connector
 from auxiliary import perms, log, get_time
-
 from dbmodels import User
 
 admin_cmds = bot_client.create_group("admin", "Commands to affect behind the scenes stuff for Meridia")
