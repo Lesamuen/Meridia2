@@ -10,26 +10,26 @@ from auxiliary import playAudio, log, getTime, d, ordinal
 from dbmodels import User
 
 quest_dialogue = [
-    "test1",
-    "test2",
-    "test3",
-    "test4",
-    "test5",
-    "test6",
-    "test7",
-    "test8",
-    "test9",
-    "test10",
-    "test11",
-    "test12",
-    "test13",
-    "test14",
-    "test15",
-    "test16",
-    "test17",
-    "test18",
-    "test19",
-    "test20"
+    "*A new supplicant approaches. Listen, hear me and obey.*",
+    "*A foul darkness has seeped into my temple. A darkness that you will destroy.*",
+    "*You have found my beacon. But it is not time for rejoicing. The defiler continues to profane my temple.*"
+    "*Return my Beacon to Mount Kilkreath. And I will make you the instrument of my cleansing light.*",
+    "*Look at my temple, lying in ruins. So much for the constancy of mortals, their crafts and their hearts.*",
+    "*If they love me not, how can my love reach them? Restore to me my beacon, that I might guide you toward your destiny.*",
+    "*It is time for my splendor to return to Skyrim. But the token of my truth lies buried in the ruins of my once great temple, now tainted by a profane darkness skittering within.*",
+    "*The Necromancer Malkoran defiles my shrine with vile corruptions, trapping lost souls left in the wake of this war to do his bidding.*",
+    "*Worse still, he uses the power stored within my own token to fuel his foul deeds.*",
+    "*I have brought you here, mortal, to be my champion. You will enter my temple, retrieve my artifact, and destroy the defiler.*",
+    "*Mortals call it Dawnbreaker, for it was forged in a holy light that breaks upon my foes, burning away corruption and false life.*",
+    "*You will enter my shrine, destroy Malkoran, and retrieve this mighty blade.*",
+    "*A single candle can banish the darkness of the entire Void. If not you, then someone else.*",
+    "*My beacon is sure to attract a worthy soul. But if you are wise, you will heed my bidding.*",
+    "*Guide my light through the temple to open the inner sanctum and destroy the defiler.*",
+    "*I have commanded it! Go now, the artifact must be reclaimed and Malkoran destroyed.*",
+    "*Malkoran has forced the doors shut. But this is my temple, and it responds to my decree.*",
+    "*I will send down a ray of light. Guide this light through my temple and its doors will open.*",
+    "```Objective: Guide Meridia's Light through the temple\nTarget: Kilkreath Temple, below the Statue to Meridia```",
+    "You toss spell after strike at Malkoran, and consume many of your cheese wheels, and yet he still stays standing..."
 ]
 
 def beacon_roll() -> List[int]:
@@ -44,7 +44,7 @@ def beacon_roll() -> List[int]:
     results.sort(reverse = True)
     return results
 
-### TODO:  do 20 custom messages, instead of numbers do small images, add dawnbreaker image
+### TODO: instead of numbers do small images, add dawnbreaker image
 async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
     '''
     Handles all beacon touching logic (since multiple events trigger the same code)
@@ -199,7 +199,7 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
             user.add_electrum(session, 50)
             log("                     >> 50 electrum imbursed to " + str(toucher))
 
-            await channel.send("<insert dialogue here>")
+            await channel.send(toucher.mention + "\n*Malkoran is vanquished. Skyrim's dead shall remain at rest. This is as it should be. This is because of you. A new day is dawning. And you shall be its herald. Take the mighty Dawnbreaker and with it purge corruption from the dark corners of the world. Wield it in my name, that my influence may grow.*\n__+50 Electrum__")
             session.close()
             return
 
