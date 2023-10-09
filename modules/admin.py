@@ -103,7 +103,7 @@ async def admin_getcurrency(
     '''
 
     if context.author.id in perms["admin"]:
-        log(get_time() + " >> Admin " + str(context.author) + " at GUILD[" + str(context.guild) + "], CHANNEL[" + str(context.channel) + "] set balance of " + str(user) + " to " + str(electrum))
+        log(get_time() + " >> Admin " + str(context.author) + " at GUILD[" + str(context.guild) + "], CHANNEL[" + str(context.channel) + "] queried balance of " + str(user))
         
         session = database_connector()
         user_data = User.find_user(session, user.id)
