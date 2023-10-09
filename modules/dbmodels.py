@@ -1,7 +1,7 @@
 '''Contains all SQLAlchemy ORM models'''
 
 from typing import List, Optional, Tuple, Dict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 
 from sqlalchemy import ForeignKey, select, insert, update, delete
 from sqlalchemy.orm import Mapped, mapped_column, relationship, Session
