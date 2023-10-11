@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from discord import Message, TextChannel, Member, RawReactionActionEvent, ApplicationContext
 
 from bot import bot_client, database_connector
-from auxiliary import playAudio, log, get_time, d, ordinal
+from auxiliary import play_audio, log, get_time, d, ordinal
 from dbmodels import User
 
 quest_dialogue = [
@@ -167,7 +167,7 @@ async def beacon_touch(channel: TextChannel, toucher: Member) -> None:
 
     # If connected to a voice channel, play meridia.ogg
     if toucher.voice:
-        await playAudio(toucher.voice.channel, "meridia")
+        await play_audio(toucher.voice.channel, "meridia")
     
     if beacon_result[0] == 1:
         # Sorted descending; if first is 1, then all are 1

@@ -41,7 +41,7 @@ def log(out: str) -> None:
         log_file.write(out + "\n")
 
 
-async def playAudio(vc: VoiceChannel, file: str) -> None:
+async def play_audio(vc: VoiceChannel, file: str) -> None:
     '''
     Has the bot join a voice channel, and play an audio clip from ./audio/<file>.ogg
 
