@@ -53,6 +53,7 @@ import dbmodels
 import admin
 import electrum
 import beacon
+import callandresponse
 
 print("\nAll bot modules successfully loaded!\nNow initiating connection to Discord servers...")
 
