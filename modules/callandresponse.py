@@ -1,6 +1,6 @@
 '''Various functions that mess with people if they're in a voice call and message a specific word'''
 
-from discord import Message, Forbidden
+from discord import Message, Forbidden, HTTPException
 
 from bot import bot_client
 from auxiliary import log, get_time, play_audio
@@ -21,6 +21,8 @@ async def no_u(message: Message):
             await message.author.edit(voice_channel = None)
         except Forbidden:
             log("ERROR HAS OCCURRED   >> Meridia couldn't disconnect " + str(message.author) + "!")
+        except HTTPException:
+            log("ERROR HAS OCCURRED   >> " + str(message.author) + " was not in vc!")
         else:
             await message.channel.send("no u", reference = message)
             await play_audio(vc, "suicide")
@@ -48,6 +50,8 @@ async def rise(message: Message):
             await message.author.edit(voice_channel = vc_list[current_index - 1])
         except Forbidden:
             log("ERROR HAS OCCURRED   >> Meridia couldn't move " + str(message.author) + "!")
+        except HTTPException:
+            log("ERROR HAS OCCURRED   >> " + str(message.author) + " was not in vc!")
         else:
             await message.channel.send("OHHhh, RISE NOW, YE TARNISHED. Ye *DEAD*, who yet *LIVE*.\nThe call of long-lost grace *speaks to us all*.", reference = message)
             await play_audio(vc_list[current_index], "rise")
