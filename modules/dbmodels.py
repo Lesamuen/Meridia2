@@ -9,6 +9,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship, Session
 from bot import SQLBase
 from auxiliary import InvalidArgumentError
 
+
 class User(SQLBase):
     '''
     Represents the saved data corresponding to a single discord user.
@@ -52,10 +53,15 @@ class User(SQLBase):
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(primary_key = True)
+    '''Corresponds to Discord user ID'''
     electrum: Mapped[int] = mapped_column(default = 0)
+    '''Currency for this bot, per user'''
     beacon_touches: Mapped[int] = mapped_column(default = 0)
+    '''How many times this user has touched the beacon'''
     dawnbreaker_progess: Mapped[int] = mapped_column(default = 0)
+    '''Current progress on the quest to find the Dawnbreaker; see beacon.py for more info'''
     beacon_cd: Mapped[Optional[datetime]]
+    '''The end time for a cooldown for various beacon-related things'''
 
     @staticmethod
     def find_user(session: Session, id: int) -> 'User':
@@ -77,7 +83,9 @@ class User(SQLBase):
             select(User)
             .where(User.id == id)
             ).scalar()
+        
         if found_user is None:
+            # Create new default user data if no matching user data found
             new_user = User(id = id)
             session.add(new_user)
             session.commit()
